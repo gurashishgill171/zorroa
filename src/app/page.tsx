@@ -40,6 +40,9 @@ export default function Home() {
           </Button>
         </div>
       </div>
+      <div className="bg-[#F0F0F0]">
+        <h1>Browse a collection of unique portfolio website templates</h1>
+      </div>
     </main>
   );
 }
