@@ -5,8 +5,23 @@ import Link from "next/link";
 import React from "react";
 import GeneralForm from "./forms/GeneralForm";
 import PersonalInfoForm from "./forms/PersonalInfoForm";
+import Breadcrumbs from "./Breadcrumbs";
+import { useSearchParams } from "next/navigation";
+import { steps } from "./steps";
 
 function PortfolioEditor() {
+  const searchParams = useSearchParams();
+  const currentStep = searchParams.get("step") || steps[0].key;
+
+  function setStep(key: string) {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("step", key);
+    window.history.pushState(null, "", `?${newSearchParams.toString()}`);
+  }
+
+  const FormComponent = steps.find(
+    (step) => step.key === currentStep,
+  )?.component;
   return (
     <div className="flex min-h-screen grow flex-col">
       <header className="space-y-1.5 border-b px-3 py-5 text-center">
@@ -18,9 +33,9 @@ function PortfolioEditor() {
       </header>
       <main className="relative grow">
         <div className="absolute top-0 bottom-0 flex w-full">
-          <div className="w-full overflow-y-auto p-3 md:w-1/2">
-            {/* <GeneralForm /> */}
-            <PersonalInfoForm />
+          <div className="w-full space-y-6 overflow-y-auto p-3 md:w-1/2">
+            <Breadcrumbs currentStep={currentStep} setCurrentStep={setStep} />
+            {FormComponent && <FormComponent />}
           </div>
           <div className="hidden w-1/2 p-3 md:flex md:border-l">
             right section
