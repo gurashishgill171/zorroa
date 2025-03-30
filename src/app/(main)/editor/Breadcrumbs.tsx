@@ -28,7 +28,10 @@ function Breadcrumbs({ currentStep, setCurrentStep }: BreadcrumbsProps) {
                     <BreadcrumbPage>{step.title}</BreadcrumbPage>
                   ) : (
                     <BreadcrumbLink asChild>
-                      <Button onClick={() => setCurrentStep(step.key)}>
+                      <Button
+                        variant="ghost"
+                        onClick={() => setCurrentStep(step.key)}
+                      >
                         {step.title}
                       </Button>
                     </BreadcrumbLink>

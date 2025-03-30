@@ -3,11 +3,12 @@ import GeneralForm from "./forms/GeneralForm";
 import PersonalInfoForm from "./forms/PersonalInfoForm";
 import EducationInfoForm from "./forms/EducationInfoForm";
 import SkillsInfoForm from "./forms/SkillsInfoForm";
+import { PortfolioEditorProps } from "@/lib/types";
 
 export const steps: {
   title: string;
   subTitle: string;
-  component: React.ComponentType;
+  component: React.ComponentType<PortfolioEditorProps>;
   key: string;
 }[] = [
   {

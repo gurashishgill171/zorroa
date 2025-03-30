@@ -13,18 +13,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PortfolioEditorProps } from "@/lib/types";
 
-function PersonalInfoForm() {
+function PersonalInfoForm({
+  portfolioData,
+  setPortfolioData,
+}: PortfolioEditorProps) {
   const form = useForm<PersonalInfoValues>({
     resolver: zodResolver(personalInfoSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      jobTitle: "",
-      email: "",
-      phoneNumber: "",
-      city: "",
-      country: "",
+      firstName: portfolioData.firstName || "",
+      lastName: portfolioData.lastName || "",
+      jobTitle: portfolioData.jobTitle || "",
+      email: portfolioData.email || "",
+      phoneNumber: portfolioData.phoneNumber || "",
+      city: portfolioData.city || "",
+      country: portfolioData.country || "",
     },
   });
 
@@ -41,7 +45,7 @@ function PersonalInfoForm() {
     <div className="mx-auto flex max-w-xl flex-col space-y-10">
       <div className="text-center">
         <h1 className="text-2xl font-bold">Personal Info</h1>
-        <p className="text-sm font-light">Tell us about yourself.</p>
+        <p className="text-muted-foreground text-sm">Tell us about yourself.</p>
       </div>
       <Form {...form}>
         <form className="space-y-8">
@@ -142,7 +146,7 @@ function PersonalInfoForm() {
               <FormItem>
                 <FormLabel>Phone Number</FormLabel>
                 <FormControl>
-                  <Input placeholder="+91-" {...field} type="tel" />
+                  <Input placeholder="XXXXXXXXXX" {...field} type="tel" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

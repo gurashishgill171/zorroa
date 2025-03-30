@@ -31,3 +31,13 @@ export const personalInfoSchema = z.object({
 });
 
 export type PersonalInfoValues = z.infer<typeof personalInfoSchema>;
+
+export const portfolioSchema = z.object({
+  ...generalInfoSchema.shape,
+  ...personalInfoSchema.shape,
+});
+
+export type PortfolioValues = Omit<z.infer<typeof portfolioSchema>, "photo"> & {
+  id?: string; // for new portfolios id will not be there inititally
+  photo?: File | string | null;
+};

@@ -1,12 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Breadcrumbs from "./Breadcrumbs";
 import { useSearchParams } from "next/navigation";
 import { steps } from "./steps";
 import Footer from "./Footer";
+import { PortfolioValues } from "@/lib/validations";
 
 function PortfolioEditor() {
+  const [portfolioData, setPortfolioData] = useState<PortfolioValues>({});
   const searchParams = useSearchParams();
   const currentStep = searchParams.get("step") || steps[0].key;
 
@@ -23,7 +25,7 @@ function PortfolioEditor() {
     <div className="flex min-h-screen grow flex-col">
       <header className="space-y-1.5 border-b px-3 py-5 text-center">
         <h1 className="text-2xl font-bold">Design your portfolio.</h1>
-        <p className="text-muted-foreground text-sm font-light">
+        <p className="text-muted-foreground text-sm">
           Follow the steps below to create your portfolio. Your progress will be
           saved automatically.
         </p>
@@ -32,7 +34,12 @@ function PortfolioEditor() {
         <div className="absolute top-0 bottom-0 flex w-full">
           <div className="w-full space-y-6 overflow-y-auto p-3 md:w-1/2">
             <Breadcrumbs currentStep={currentStep} setCurrentStep={setStep} />
-            {FormComponent && <FormComponent />}
+            {FormComponent && (
+              <FormComponent
+                portfolioData={portfolioData}
+                setPortfolioData={setPortfolioData}
+              />
+            )}
           </div>
           <div className="hidden w-1/2 p-3 md:flex md:border-l">
             right section

@@ -31,7 +31,7 @@ function GeneralForm() {
     <div className="mx-auto flex max-w-xl flex-col space-y-10">
       <div className="text-center">
         <h1 className="text-2xl font-bold">General Info</h1>
-        <p className="text-sm font-light">
+        <p className="text-muted-foreground text-sm">
           This will not appear on your portfolio.
         </p>
       </div>
