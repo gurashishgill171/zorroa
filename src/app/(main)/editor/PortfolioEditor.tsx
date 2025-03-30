@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
 import GeneralForm from "./forms/GeneralForm";
+import PersonalInfoForm from "./forms/PersonalInfoForm";
 
 function PortfolioEditor() {
   return (
@@ -17,8 +18,9 @@ function PortfolioEditor() {
       </header>
       <main className="relative grow">
         <div className="absolute top-0 bottom-0 flex w-full">
-          <div className="w-full p-3 md:w-1/2">
-            <GeneralForm />
+          <div className="w-full overflow-y-auto p-3 md:w-1/2">
+            {/* <GeneralForm /> */}
+            <PersonalInfoForm />
           </div>
           <div className="hidden w-1/2 p-3 md:flex md:border-l">
             right section

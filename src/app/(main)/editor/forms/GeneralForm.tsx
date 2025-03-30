@@ -28,7 +28,7 @@ function GeneralForm() {
     console.log(values);
   }
   return (
-    <div className="flex flex-col space-y-10">
+    <div className="mx-auto flex max-w-xl flex-col space-y-10">
       <div className="text-center">
         <h1 className="text-2xl font-bold">General Info</h1>
         <p className="text-sm font-light">
