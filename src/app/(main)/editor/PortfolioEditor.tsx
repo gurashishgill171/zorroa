@@ -41,7 +41,7 @@ function PortfolioEditor() {
               />
             )}
           </div>
-          <div className="hidden w-1/2 p-3 md:flex md:border-l">
+          <div className="hidden w-1/2 overflow-y-auto p-3 md:flex md:border-l">
             <pre>{JSON.stringify(portfolioData, null, 2)}</pre>
           </div>
         </div>

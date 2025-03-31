@@ -25,6 +25,7 @@ model Portfolio {
   githubUrl       String?
   linkedin        String?
   workExperiences WorkExperience[]
+  educations      Education[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 
@@ -44,4 +45,18 @@ model WorkExperience {
   updatedAt   DateTime  @updatedAt
 
   @@map("work_experience")
+}
+
+model Education {
+  id          String    @id @default(cuid())
+  degree      String?
+  school      String?
+  startDate   DateTime?
+  endDate     DateTime?
+  portfolioId String
+  portfolio Portfolio @relation(fields: [portfolioId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("education")
 }
