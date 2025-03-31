@@ -14,21 +14,34 @@ datasource db {
 }
 
 model Portfolio {
-  id     String @id @default(cuid())
-  userId String
-
-  photoUrl  String?
-  firstName String
-  lastName  String
-  title     String?
-  summary   String?
-
-  email     String
-  githubUrl String?
-  linkedin  String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String           @id @default(cuid())
+  userId          String
+  photoUrl        String?
+  firstName       String
+  lastName        String
+  title           String?
+  summary         String?
+  email           String
+  githubUrl       String?
+  linkedin        String?
+  workExperiences WorkExperience[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 
   @@map("portfolios")
+}
+
+model WorkExperience {
+  id          String    @id @default(cuid())
+  position    String?
+  company     String?
+  startDate   DateTime?
+  endDate     DateTime?
+  description String?
+  portfolioId String
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("work_experience")
 }

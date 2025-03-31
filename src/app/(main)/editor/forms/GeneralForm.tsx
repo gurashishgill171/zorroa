@@ -1,7 +1,7 @@
 "use client";
 
 import { generalInfoSchema, GeneralInfoValues } from "@/lib/validations";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -14,19 +14,34 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PortfolioEditorProps } from "@/lib/types";
 
-function GeneralForm() {
+function GeneralForm({
+  portfolioData,
+  setPortfolioData,
+}: PortfolioEditorProps) {
   const form = useForm<GeneralInfoValues>({
     resolver: zodResolver(generalInfoSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      title: portfolioData.title || "",
+      description: portfolioData.description || "",
     },
   });
 
-  function onSubmit(values: GeneralInfoValues) {
-    console.log(values);
-  }
+  useEffect(() => {
+    const subscription = form.watch((values) => {
+      const timeout = setTimeout(async () => {
+        const isValid = await form.trigger();
+        if (isValid) {
+          setPortfolioData({ ...portfolioData, ...values });
+        }
+      }, 300);
+
+      return () => clearTimeout(timeout);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [form.watch, setPortfolioData]);
   return (
     <div className="mx-auto flex max-w-xl flex-col space-y-10">
       <div className="text-center">
@@ -36,7 +51,7 @@ function GeneralForm() {
         </p>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form className="space-y-8">
           <FormField
             control={form.control}
             name="title"

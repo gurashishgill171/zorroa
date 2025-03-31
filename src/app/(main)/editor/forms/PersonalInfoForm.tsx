@@ -32,14 +32,20 @@ function PersonalInfoForm({
     },
   });
 
-  //   useEffect(() => {
-  //     const { unsubscribe } = form.watch(async () => {
-  //       const isValied = await form.trigger();
-  //       if (!isValied) return;
-  //     });
+  useEffect(() => {
+    const subscription = form.watch((values) => {
+      const timeout = setTimeout(async () => {
+        const isValid = await form.trigger();
+        if (isValid) {
+          setPortfolioData({ ...portfolioData, ...values });
+        }
+      }, 300);
 
-  //     return unsubscribe;
-  //   }, [form]);
+      return () => clearTimeout(timeout);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [form.watch, setPortfolioData]);
 
   return (
     <div className="mx-auto flex max-w-xl flex-col space-y-10">

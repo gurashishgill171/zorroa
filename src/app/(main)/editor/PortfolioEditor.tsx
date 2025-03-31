@@ -42,7 +42,7 @@ function PortfolioEditor() {
             )}
           </div>
           <div className="hidden w-1/2 p-3 md:flex md:border-l">
-            right section
+            <pre>{JSON.stringify(portfolioData, null, 2)}</pre>
           </div>
         </div>
       </main>
