@@ -26,6 +26,7 @@ model Portfolio {
   linkedin        String?
   workExperiences WorkExperience[]
   educations      Education[]
+  skills          String[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 
@@ -54,7 +55,7 @@ model Education {
   startDate   DateTime?
   endDate     DateTime?
   portfolioId String
-  portfolio Portfolio @relation(fields: [portfolioId], references: [id])
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
