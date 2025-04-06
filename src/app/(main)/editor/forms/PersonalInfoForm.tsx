@@ -14,11 +14,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PortfolioEditorProps } from "@/lib/types";
+import { useEdgeStore } from "@/lib/edgestore";
 
 function PersonalInfoForm({
   portfolioData,
   setPortfolioData,
 }: PortfolioEditorProps) {
+  const { edgestore } = useEdgeStore();
   const form = useForm<PersonalInfoValues>({
     resolver: zodResolver(personalInfoSchema),
     defaultValues: {
@@ -66,9 +68,21 @@ function PersonalInfoForm({
                     {...fieldValues}
                     type="file"
                     accept="image/*"
-                    onChange={(e) => {
+                    onChange={async (e) => {
                       const file = e.target.files?.[0];
                       fieldValues.onChange(file);
+                      if (file) {
+                        const res = await edgestore.publicImages.upload({
+                          file,
+                        });
+
+                        if (res.url) {
+                          setPortfolioData({
+                            ...portfolioData,
+                            photo: res.url,
+                          });
+                        }
+                      }
                     }}
                   />
                 </FormControl>
