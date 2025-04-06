@@ -70,12 +70,36 @@ export const skillsSchema = z.object({
 
 export type SkillsValues = z.infer<typeof skillsSchema>;
 
+export const projectSchema = z.object({
+  projects: z.array(
+    z.object({
+      title: optionalString,
+      description: optionalString,
+      url: optionalString,
+      photoUrl: z
+        .custom<File | undefined>()
+        .refine(
+          (file) =>
+            !file || (file instanceof File && file.type.startsWith("image/")),
+          "Must be an image file",
+        )
+        .refine(
+          (file) => !file || file.size <= 1024 * 1024 * 4,
+          "File must be less than 4MB",
+        ),
+    }),
+  ),
+});
+
+export type ProjectValues = z.infer<typeof projectSchema>;
+
 export const portfolioSchema = z.object({
   ...generalInfoSchema.shape,
   ...personalInfoSchema.shape,
   ...workExperienceSchema.shape,
   ...educationSchema.shape,
   ...skillsSchema.shape,
+  ...projectSchema.shape,
 });
 
 export type PortfolioValues = Omit<z.infer<typeof portfolioSchema>, "photo"> & {

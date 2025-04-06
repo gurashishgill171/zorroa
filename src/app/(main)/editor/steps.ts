@@ -5,6 +5,7 @@ import EducationInfoForm from "./forms/EducationInfoForm";
 import SkillsInfoForm from "./forms/SkillsInfoForm";
 import { PortfolioEditorProps } from "@/lib/types";
 import WorkExperienceForm from "./forms/WorkExperienceForm";
+import ProjectsForm from "./forms/ProjectsForm";
 
 export const steps: {
   title: string;
@@ -35,6 +36,12 @@ export const steps: {
     subTitle: "Enter your educational details",
     component: EducationInfoForm,
     key: "education-info",
+  },
+  {
+    title: "Projects",
+    subTitle: "Enter your projects",
+    component: ProjectsForm,
+    key: "projects-info",
   },
   {
     title: "Skills",

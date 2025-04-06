@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { steps } from "./steps";
 import Footer from "./Footer";
 import { PortfolioValues } from "@/lib/validations";
+import Template1 from "@/components/templates/template1";
 
 function PortfolioEditor() {
   const [portfolioData, setPortfolioData] = useState<PortfolioValues>({});
@@ -41,8 +42,11 @@ function PortfolioEditor() {
               />
             )}
           </div>
-          <div className="hidden w-1/2 overflow-y-auto p-3 md:flex md:border-l">
-            <pre>{JSON.stringify(portfolioData, null, 2)}</pre>
+          <div className="hidden w-1/2 overflow-y-auto md:flex md:border-l">
+            <Template1
+              portfolioData={portfolioData}
+              setPortfolioData={setPortfolioData}
+            />
           </div>
         </div>
       </main>
