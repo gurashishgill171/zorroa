@@ -5,13 +5,13 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import ProjectImagePlaceholder from "@/assets/projectImage.png";
 
-function Template1({ portfolioData, setPortfolioData }: PortfolioEditorProps) {
+function Template1({ portfolioData }: PortfolioEditorProps) {
   return (
     <main>
       <div className="flex w-full max-w-[1280px] flex-col gap-8">
         <div className="flex items-center justify-between gap-4">
           <div className="flex flex-col gap-2">
-            <h1 className="text-4xl font-bold">Hi, I'm Gurashish 👋</h1>
+            <h1 className="text-4xl font-bold">Hi, I&apos;m Gurashish 👋</h1>
             <p className="text-xl font-light">
               Software Engineer turned Entrepreneur. I love building things and
               helping people. Very active on Twitter.
@@ -59,6 +59,25 @@ function Template1({ portfolioData, setPortfolioData }: PortfolioEditorProps) {
 
         <div>
           <h1 className="text-xl font-bold">Education</h1>
+          <div className="mt-2 flex flex-col gap-4">
+            {portfolioData?.educations?.map((education, index) => (
+              <div key={index} className="flex items-start justify-between">
+                <div>
+                  <h1 className="text-md font-bold">{education.school}</h1>
+                  <h4 className="text-md text-muted-foreground">
+                    {education.degree}
+                  </h4>
+                  <p className="text-sm font-light">{education.description}</p>
+                </div>
+                <div>
+                  <span>
+                    {education.startDate ? education.startDate : "N/A"} –{" "}
+                    {education.endDate ? education.endDate : "Present"}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div>
@@ -78,7 +97,8 @@ function Template1({ portfolioData, setPortfolioData }: PortfolioEditorProps) {
             Checkout my latest work{" "}
           </h4>
           <p className="text-muted-foreground text-center text-xl font-light">
-            I've worked on variety of projects, here are few of my favourites.
+            I&apos;ve worked on variety of projects, here are few of my
+            favourites.
           </p>
           <div className="mt-4 grid grid-cols-2 gap-4">
             {portfolioData?.projects?.map((project) => (
