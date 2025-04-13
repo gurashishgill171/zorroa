@@ -9,7 +9,9 @@ import { PortfolioValues } from "@/lib/validations";
 import Template1 from "@/components/templates/template1";
 
 function PortfolioEditor() {
-  const [portfolioData, setPortfolioData] = useState<PortfolioValues>({});
+  const [portfolioData, setPortfolioData] = useState<PortfolioValues>(
+    {} as PortfolioValues,
+  );
   const searchParams = useSearchParams();
   const currentStep = searchParams.get("step") || steps[0].key;
 
@@ -42,7 +44,7 @@ function PortfolioEditor() {
               />
             )}
           </div>
-          <div className="hidden w-1/2 overflow-y-auto md:flex md:border-l">
+          <div className="hidden w-1/2 overflow-y-auto p-3 md:flex md:border-l">
             <Template1
               portfolioData={portfolioData}
               setPortfolioData={setPortfolioData}

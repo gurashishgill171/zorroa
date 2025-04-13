@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -9,9 +10,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useEdgeStore } from "@/lib/edgestore";
 import { PortfolioEditorProps } from "@/lib/types";
-import { projectSchema, ProjectValues } from "@/lib/validations";
+import {
+  PortfolioValues,
+  projectSchema,
+  ProjectValues,
+} from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { X } from "lucide-react";
 import React, { useEffect } from "react";
 import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
 
@@ -65,6 +72,8 @@ function ProjectsForm({
             index={index}
             form={form}
             remove={remove}
+            portfolioData={portfolioData}
+            setPortfolioData={setPortfolioData}
           />
         ))}
       </Form>
@@ -75,7 +84,8 @@ function ProjectsForm({
               title: "",
               description: "",
               url: "",
-              photoUrl: "",
+              photoUrl: null,
+              skills: [],
             })
           }
         >
@@ -91,9 +101,38 @@ interface ProjectItemProps {
   index: number;
   form: UseFormReturn<ProjectValues>;
   remove: (index: number) => void;
+  portfolioData: PortfolioValues;
+  setPortfolioData: (data: PortfolioValues) => void;
 }
 
-const ProjectItem = ({ id, index, form, remove }: ProjectItemProps) => {
+const ProjectItem = ({
+  index,
+  form,
+  remove,
+  portfolioData,
+  setPortfolioData,
+}: ProjectItemProps) => {
+  const { edgestore } = useEdgeStore();
+  const skills = form.watch(`projects.${index}.skills`) || [];
+  const addSkill = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const newSkill = e.currentTarget.value.trim();
+
+      if (newSkill && !skills.includes(newSkill)) {
+        form.setValue(`projects.${index}.skills`, [...skills, newSkill]);
+        form.trigger(`projects.${index}.skills`);
+      }
+      e.currentTarget.value = "";
+    }
+  };
+  const removeSkill = (skill: string) => {
+    form.setValue(
+      `projects.${index}.skills`,
+      skills.filter((s) => s !== skill),
+    );
+    form.trigger(`projects.${index}.skills`);
+  };
   return (
     <div>
       <div></div>
@@ -124,6 +163,36 @@ const ProjectItem = ({ id, index, form, remove }: ProjectItemProps) => {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name={`projects.${index}.skills`}
+          render={() => (
+            <FormItem>
+              <FormLabel>Skills</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Type a skill and press Enter..."
+                  onKeyDown={addSkill}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex flex-wrap gap-2">
+          {skills.map((skill, index) => (
+            <Badge key={index} variant="outline" className="flex items-center">
+              {skill}
+              <button
+                type="button"
+                onClick={() => removeSkill(skill)}
+                className="ml-2 text-red-500 hover:text-red-700"
+              >
+                <X size={12} />
+              </button>
+            </Badge>
+          ))}
+        </div>
         <div className="grid grid-cols-2 gap-3">
           <FormField
             control={form.control}
@@ -141,6 +210,7 @@ const ProjectItem = ({ id, index, form, remove }: ProjectItemProps) => {
           <FormField
             control={form.control}
             name={`projects.${index}.photoUrl`}
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             render={({ field: { value, ...fieldValues } }) => (
               <FormItem>
                 <FormLabel>Project Image</FormLabel>
@@ -149,9 +219,30 @@ const ProjectItem = ({ id, index, form, remove }: ProjectItemProps) => {
                     {...fieldValues}
                     type="file"
                     accept="image/*"
-                    onChange={(e) => {
+                    onChange={async (e) => {
                       const file = e.target.files?.[0];
                       fieldValues.onChange(file);
+                      if (file) {
+                        const res = await edgestore.publicImages.upload({
+                          file,
+                        });
+
+                        if (res.url) {
+                          const updatedProjects = [...portfolioData.projects];
+                          updatedProjects[index] = {
+                            ...updatedProjects[index],
+                            photoUrl: res.url,
+                          };
+
+                          setPortfolioData({
+                            ...portfolioData,
+                            projects: updatedProjects,
+                          });
+                          form.setValue(`projects.${index}.photoUrl`, res.url);
+
+                          console.log(portfolioData);
+                        }
+                      }
                     }}
                   />
                 </FormControl>

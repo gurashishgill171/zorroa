@@ -38,15 +38,15 @@ export const steps: {
     key: "education-info",
   },
   {
-    title: "Projects",
-    subTitle: "Enter your projects",
-    component: ProjectsForm,
-    key: "projects-info",
-  },
-  {
     title: "Skills",
     subTitle: "Show off your skills.",
     component: SkillsInfoForm,
     key: "skills-info",
+  },
+  {
+    title: "Projects",
+    subTitle: "Enter your projects",
+    component: ProjectsForm,
+    key: "projects-info",
   },
 ];

@@ -76,17 +76,24 @@ export const projectSchema = z.object({
       title: optionalString,
       description: optionalString,
       url: optionalString,
+      skills: z.array(z.string().trim()).optional(),
       photoUrl: z
-        .custom<File | undefined>()
+        .custom<File | string | null | undefined>()
         .refine(
           (file) =>
-            !file || (file instanceof File && file.type.startsWith("image/")),
+            !file ||
+            typeof file === "string" ||
+            (file instanceof File && file.type.startsWith("image/")),
           "Must be an image file",
         )
         .refine(
-          (file) => !file || file.size <= 1024 * 1024 * 4,
+          (file) =>
+            !file ||
+            typeof file === "string" ||
+            (file as File).size <= 1024 * 1024 * 4,
           "File must be less than 4MB",
-        ),
+        )
+        .optional(),
     }),
   ),
 });

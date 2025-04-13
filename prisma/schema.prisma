@@ -64,11 +64,12 @@ model Education {
 }
 
 model Project {
-  id         String    @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
   description String?
   url         String?
   photoUrl    String?
+  skills      String[]
   portfolioId String
   portfolio   Portfolio @relation(fields: [portfolioId], references: [id])
   createdAt   DateTime  @default(now())
