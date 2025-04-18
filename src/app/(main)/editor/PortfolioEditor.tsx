@@ -52,7 +52,12 @@ function PortfolioEditor() {
           </div>
         </div>
       </main>
-      <Footer currentStep={currentStep} setCurrentStep={setStep} />
+      <Footer
+        currentStep={currentStep}
+        setCurrentStep={setStep}
+        portfolioData={portfolioData}
+        setPortfolioData={setPortfolioData}
+      />
     </div>
   );
 }

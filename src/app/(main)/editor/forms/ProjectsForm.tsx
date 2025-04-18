@@ -239,8 +239,6 @@ const ProjectItem = ({
                             projects: updatedProjects,
                           });
                           form.setValue(`projects.${index}.photoUrl`, res.url);
-
-                          console.log(portfolioData);
                         }
                       }
                     }}

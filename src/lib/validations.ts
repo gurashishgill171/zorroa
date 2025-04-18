@@ -11,16 +11,22 @@ export type GeneralInfoValues = z.infer<typeof generalInfoSchema>;
 
 export const personalInfoSchema = z.object({
   photo: z
-    .custom<File | undefined>()
+    .custom<File | string | null | undefined>()
     .refine(
       (file) =>
-        !file || (file instanceof File && file.type.startsWith("image/")),
+        !file ||
+        typeof file === "string" ||
+        (file instanceof File && file.type.startsWith("image/")),
       "Must be an image file",
     )
     .refine(
-      (file) => !file || file.size <= 1024 * 1024 * 4,
+      (file) =>
+        !file ||
+        typeof file === "string" ||
+        (file as File).size <= 1024 * 1024 * 4,
       "File must be less than 4MB",
-    ),
+    )
+    .optional(),
   firstName: optionalString,
   lastName: optionalString,
   jobTitle: optionalString,
@@ -112,7 +118,6 @@ export const portfolioSchema = z.object({
   ...projectSchema.shape,
 });
 
-export type PortfolioValues = Omit<z.infer<typeof portfolioSchema>, "photo"> & {
+export type PortfolioValues = z.infer<typeof portfolioSchema> & {
   id?: string; // for new portfolios id will not be there inititally
-  photo?: File | string | null;
 };
