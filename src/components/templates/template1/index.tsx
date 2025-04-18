@@ -11,7 +11,9 @@ function Template1({ portfolioData }: PortfolioEditorProps) {
       <div className="flex w-full max-w-[1280px] flex-col gap-8">
         <div className="flex items-center justify-between gap-4">
           <div className="flex flex-col gap-2">
-            <h1 className="text-4xl font-bold">Hi, I&apos;m Gurashish 👋</h1>
+            <h1 className="text-4xl font-bold">
+              Hi, I&apos;m {portfolioData?.firstName} 👋
+            </h1>
             <p className="text-xl font-light">
               Software Engineer turned Entrepreneur. I love building things and
               helping people. Very active on Twitter.
@@ -27,33 +29,29 @@ function Template1({ portfolioData }: PortfolioEditorProps) {
         </div>
         <div>
           <h1 className="text-xl font-bold">About</h1>
-          <p className="text-muted-foreground">
-            At the end of 2022, I quit my job as a software engineer to go
-            fulltime into building and scaling my own SaaS businesses. In the
-            past, I pursued a double degree in computer science and business,
-            interned at big tech companies in Silicon Valley, and competed in
-            over 21 hackathons for fun. I also had the pleasure of being a part
-            of the first ever in-person cohort of buildspace called buildspace
-            sf1.
-          </p>
+          <p className="text-muted-foreground">{portfolioData?.about}</p>
         </div>
 
         <div>
           <h1 className="text-xl font-bold">Work Experience</h1>
-          <div>
-            <div className="flex items-start justify-between">
-              <div>
-                <h4 className="text-md font-bold">Incedo Inc.</h4>
-                <p className="text-md text-muted-foreground">
-                  Software Engineer
-                </p>
+          <div className="mt-2 flex flex-col gap-4">
+            {portfolioData?.workExperiences?.map((workEx, index) => (
+              <div key={index} className="flex items-start justify-between">
+                <div>
+                  <h1 className="text-md font-bold">{workEx.company}</h1>
+                  <h4 className="text-md text-muted-foreground">
+                    {workEx.position}
+                  </h4>
+                  <p className="text-sm font-light">{workEx.description}</p>
+                </div>
+                <div>
+                  <span>
+                    {workEx.startDate ? workEx.startDate : "N/A"} –{" "}
+                    {workEx.endDate ? workEx.endDate : "Present"}
+                  </span>
+                </div>
               </div>
-              <div>
-                <p className="text-md text-muted-foreground">
-                  July 2023 - Present
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 

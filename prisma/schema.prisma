@@ -21,6 +21,7 @@ model Portfolio {
   lastName        String
   title           String?
   summary         String?
+  about           String?
   email           String
   githubUrl       String?
   linkedin        String?

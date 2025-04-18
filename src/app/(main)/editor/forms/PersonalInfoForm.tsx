@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { PortfolioEditorProps } from "@/lib/types";
 import { useEdgeStore } from "@/lib/edgestore";
+import { Textarea } from "@/components/ui/textarea";
 
 function PersonalInfoForm({
   portfolioData,
@@ -31,6 +32,9 @@ function PersonalInfoForm({
       phoneNumber: portfolioData.phoneNumber || "",
       city: portfolioData.city || "",
       country: portfolioData.country || "",
+      about: portfolioData.about || "",
+      githubUrl: portfolioData.githubUrl || "",
+      linkedin: portfolioData.linkedin || "",
     },
   });
 
@@ -63,7 +67,7 @@ function PersonalInfoForm({
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             render={({ field: { value, ...fieldValues } }) => (
               <FormItem>
-                <FormLabel>Upload photo</FormLabel>
+                <FormLabel>Upload your photo</FormLabel>
                 <FormControl>
                   <Input
                     {...fieldValues}
@@ -121,6 +125,22 @@ function PersonalInfoForm({
           </div>
           <FormField
             control={form.control}
+            name="about"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>About</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Tell us about yourself, what you do, and your interests."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="jobTitle"
             render={({ field }) => (
               <FormItem>
@@ -160,14 +180,46 @@ function PersonalInfoForm({
               )}
             />
           </div>
+          <div className="grid grid-cols-2 gap-3">
+            <FormField
+              control={form.control}
+              name="phoneNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone Number</FormLabel>
+                  <FormControl>
+                    <Input placeholder="+91-XXXXXXXXXX" {...field} type="tel" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="rahul@gmail.com"
+                      {...field}
+                      type="email"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
-            name="phoneNumber"
+            name="linkedin"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone Number</FormLabel>
+                <FormLabel>LinkedIn Profile</FormLabel>
                 <FormControl>
-                  <Input placeholder="XXXXXXXXXX" {...field} type="tel" />
+                  <Input {...field} type="text" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -175,16 +227,12 @@ function PersonalInfoForm({
           />
           <FormField
             control={form.control}
-            name="email"
+            name="githubUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Github Profile</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="rahul@gmail.com"
-                    {...field}
-                    type="email"
-                  />
+                  <Input {...field} type="text" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
