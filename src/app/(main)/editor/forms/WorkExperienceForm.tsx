@@ -9,17 +9,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PortfolioEditorProps } from "@/lib/types";
-import { workExperienceSchema, WorkExperienceValues } from "@/lib/validations";
+import {
+  GeneralInfoValues,
+  workExperienceSchema,
+  WorkExperienceValues,
+} from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect } from "react";
 import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
+interface WorkInfoFormProps extends PortfolioEditorProps {
+  setFormRef?: (form: UseFormReturn<GeneralInfoValues>) => void;
+}
+
 function WorkExperienceForm({
   portfolioData,
   setPortfolioData,
-}: PortfolioEditorProps) {
+}: WorkInfoFormProps) {
   const form = useForm<WorkExperienceValues>({
     resolver: zodResolver(workExperienceSchema),
     defaultValues: {

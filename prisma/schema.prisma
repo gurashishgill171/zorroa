@@ -18,13 +18,17 @@ model Portfolio {
   userId          String
   photo           String?
   firstName       String
-  lastName        String
-  title           String?
+  lastName        String?
+  jobTitle        String
+  city            String
+  country         String
+  description     String
   summary         String?
   about           String?
   email           String
+  phoneNumber     String
   githubUrl       String?
-  linkedin        String?
+  linkedin        String
   workExperiences WorkExperience[]
   educations      Education[]
   projects        Project[]

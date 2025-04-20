@@ -2,7 +2,7 @@
 
 import { generalInfoSchema, GeneralInfoValues } from "@/lib/validations";
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -16,10 +16,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { PortfolioEditorProps } from "@/lib/types";
 
+interface GeneralFormProps extends PortfolioEditorProps {
+  setFormRef?: (form: UseFormReturn<GeneralInfoValues>) => void;
+}
+
 function GeneralForm({
   portfolioData,
   setPortfolioData,
-}: PortfolioEditorProps) {
+  setFormRef,
+}: GeneralFormProps) {
   const form = useForm<GeneralInfoValues>({
     resolver: zodResolver(generalInfoSchema),
     defaultValues: {
@@ -27,6 +32,12 @@ function GeneralForm({
       description: portfolioData.description || "",
     },
   });
+
+  useEffect(() => {
+    if (setFormRef) {
+      setFormRef(form);
+    }
+  }, [form, setFormRef]);
 
   useEffect(() => {
     const subscription = form.watch((values) => {

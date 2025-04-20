@@ -11,15 +11,23 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { PortfolioEditorProps } from "@/lib/types";
-import { educationSchema, EducationValues } from "@/lib/validations";
+import {
+  educationSchema,
+  EducationValues,
+  GeneralInfoValues,
+} from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect } from "react";
 import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
 
+interface EducationFormProps extends PortfolioEditorProps {
+  setFormRef?: (form: UseFormReturn<GeneralInfoValues>) => void;
+}
+
 function EducationInfoForm({
   portfolioData,
   setPortfolioData,
-}: PortfolioEditorProps) {
+}: EducationFormProps) {
   const form = useForm<EducationValues>({
     resolver: zodResolver(educationSchema),
     defaultValues: {

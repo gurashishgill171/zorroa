@@ -8,16 +8,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PortfolioEditorProps } from "@/lib/types";
-import { skillsSchema, SkillsValues } from "@/lib/validations";
+import {
+  GeneralInfoValues,
+  skillsSchema,
+  SkillsValues,
+} from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormReturn } from "react-hook-form";
 
-function SkillsInfoForm({
-  portfolioData,
-  setPortfolioData,
-}: PortfolioEditorProps) {
+interface SkillsFormProps extends PortfolioEditorProps {
+  setFormRef?: (form: UseFormReturn<GeneralInfoValues>) => void;
+}
+
+function SkillsInfoForm({ portfolioData, setPortfolioData }: SkillsFormProps) {
   const form = useForm<SkillsValues>({
     resolver: zodResolver(skillsSchema),
     defaultValues: {

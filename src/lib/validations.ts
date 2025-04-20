@@ -1,10 +1,11 @@
 import { z } from "zod";
 
 const optionalString = z.string().trim().optional().or(z.literal(""));
+const requiredString = z.string().trim().min(1, "This field is required");
 
 export const generalInfoSchema = z.object({
-  title: optionalString,
-  description: optionalString,
+  title: requiredString,
+  description: requiredString,
 });
 
 export type GeneralInfoValues = z.infer<typeof generalInfoSchema>;
@@ -27,15 +28,15 @@ export const personalInfoSchema = z.object({
       "File must be less than 4MB",
     )
     .optional(),
-  firstName: optionalString,
+  firstName: requiredString,
   lastName: optionalString,
-  jobTitle: optionalString,
-  city: optionalString,
-  country: optionalString,
-  email: optionalString,
-  phoneNumber: optionalString,
+  jobTitle: requiredString,
+  city: requiredString,
+  country: requiredString,
+  email: requiredString,
+  phoneNumber: requiredString,
   about: optionalString,
-  linkedin: optionalString,
+  linkedin: requiredString,
   githubUrl: optionalString,
 });
 

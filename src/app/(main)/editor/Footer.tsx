@@ -14,10 +14,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { PortfolioEditorProps } from "@/lib/types";
 import { savePortfolio } from "./actions";
+import { UseFormReturn } from "react-hook-form";
+import { GeneralInfoValues, PersonalInfoValues } from "@/lib/validations";
 
 interface FooterProps extends PortfolioEditorProps {
   currentStep: string;
   setCurrentStep: (step: string) => void;
+  form?: UseFormReturn<GeneralInfoValues | PersonalInfoValues>;
 }
 
 function Footer({
@@ -25,6 +28,7 @@ function Footer({
   setCurrentStep,
   portfolioData,
   setPortfolioData,
+  form,
 }: FooterProps) {
   const [showDialog, setShowDialog] = React.useState(false);
   const previousStep = steps.find(
@@ -33,6 +37,13 @@ function Footer({
   const nextStep = steps.find(
     (_, index) => steps[index - 1]?.key === currentStep,
   )?.key;
+  const handleNextStep = async (nextStep: string) => {
+    const isValid = await form?.trigger();
+    if (isValid) {
+      setCurrentStep(nextStep);
+    }
+    return;
+  };
   return (
     <footer className="w-full border-t px-3 py-5">
       <div className="mx-auto flex max-w-7xl items-center justify-between">
@@ -48,7 +59,7 @@ function Footer({
           <Button
             onClick={
               nextStep
-                ? () => setCurrentStep(nextStep)
+                ? () => handleNextStep(nextStep)
                 : () => setShowDialog(true)
             }
             variant={"secondary"}

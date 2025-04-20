@@ -2,7 +2,7 @@
 
 import { personalInfoSchema, PersonalInfoValues } from "@/lib/validations";
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -17,10 +17,15 @@ import { PortfolioEditorProps } from "@/lib/types";
 import { useEdgeStore } from "@/lib/edgestore";
 import { Textarea } from "@/components/ui/textarea";
 
+interface PersonalInfoFormProps extends PortfolioEditorProps {
+  setFormRef?: (form: UseFormReturn<PersonalInfoValues>) => void;
+}
+
 function PersonalInfoForm({
   portfolioData,
   setPortfolioData,
-}: PortfolioEditorProps) {
+  setFormRef,
+}: PersonalInfoFormProps) {
   const { edgestore } = useEdgeStore();
   const form = useForm<PersonalInfoValues>({
     resolver: zodResolver(personalInfoSchema),
@@ -37,6 +42,12 @@ function PersonalInfoForm({
       linkedin: portfolioData.linkedin || "",
     },
   });
+
+  useEffect(() => {
+    if (setFormRef) {
+      setFormRef(form);
+    }
+  }, [form, setFormRef]);
 
   useEffect(() => {
     const subscription = form.watch((values) => {
