@@ -83,7 +83,7 @@ export type SkillsValues = z.infer<typeof skillsSchema>;
 export const projectSchema = z.object({
   projects: z.array(
     z.object({
-      title: optionalString,
+      title: requiredString,
       description: optionalString,
       url: optionalString,
       skills: z.array(z.string().trim()).optional(),

@@ -13,22 +13,24 @@ import { Textarea } from "@/components/ui/textarea";
 import { useEdgeStore } from "@/lib/edgestore";
 import { PortfolioEditorProps } from "@/lib/types";
 import {
-  GeneralInfoValues,
   PortfolioValues,
   projectSchema,
   ProjectValues,
 } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Project } from "@prisma/client";
 import { X } from "lucide-react";
 import React, { useEffect } from "react";
 import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
 
 interface ProjectsFormProps extends PortfolioEditorProps {
-  setFormRef?: (form: UseFormReturn<GeneralInfoValues>) => void;
+  setFormRef?: (form: UseFormReturn<ProjectValues>) => void;
 }
 
-function ProjectsForm({ portfolioData, setPortfolioData }: ProjectsFormProps) {
+function ProjectsForm({
+  portfolioData,
+  setPortfolioData,
+  setFormRef,
+}: ProjectsFormProps) {
   const form = useForm<ProjectValues>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
@@ -40,6 +42,12 @@ function ProjectsForm({ portfolioData, setPortfolioData }: ProjectsFormProps) {
     control: form.control,
     name: "projects",
   });
+
+  useEffect(() => {
+    if (setFormRef) {
+      setFormRef(form);
+    }
+  }, [form, setFormRef]);
 
   useEffect(() => {
     const subscription = form.watch((values) => {

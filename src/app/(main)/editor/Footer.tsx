@@ -44,6 +44,13 @@ function Footer({
     }
     return;
   };
+
+  const handleShowDailog = async () => {
+    const isValid = await form?.trigger();
+    if (isValid) {
+      setShowDialog(true);
+    }
+  };
   return (
     <footer className="w-full border-t px-3 py-5">
       <div className="mx-auto flex max-w-7xl items-center justify-between">
@@ -60,7 +67,7 @@ function Footer({
             onClick={
               nextStep
                 ? () => handleNextStep(nextStep)
-                : () => setShowDialog(true)
+                : () => handleShowDailog()
             }
             variant={"secondary"}
           >

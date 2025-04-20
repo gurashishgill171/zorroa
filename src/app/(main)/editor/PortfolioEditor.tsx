@@ -10,6 +10,7 @@ import {
   GeneralInfoValues,
   PersonalInfoValues,
   PortfolioValues,
+  ProjectValues,
   WorkExperienceValues,
 } from "@/lib/validations";
 import Template1 from "@/components/templates/template1";
@@ -24,6 +25,7 @@ function PortfolioEditor() {
     | PersonalInfoValues
     | WorkExperienceValues
     | EducationValues
+    | ProjectValues
   > | null>(null);
   const searchParams = useSearchParams();
   const currentStep = searchParams.get("step") || steps[0].key;
