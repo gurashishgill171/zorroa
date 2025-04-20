@@ -20,8 +20,8 @@ function Template1({ portfolioData }: PortfolioEditorProps) {
             </p>
           </div>
           <Image
-            src={DummyUser}
-            alt="dummy-user"
+            src={portfolioData?.photo || DummyUser}
+            alt="user"
             width={120}
             height={120}
             className="rounded-full"
