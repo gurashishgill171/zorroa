@@ -41,9 +41,9 @@ model Portfolio {
 
 model WorkExperience {
   id          String    @id @default(cuid())
-  position    String?
-  company     String?
-  startDate   DateTime?
+  position    String
+  company     String
+  startDate   DateTime
   endDate     DateTime?
   description String?
   portfolioId String
@@ -56,9 +56,9 @@ model WorkExperience {
 
 model Education {
   id          String    @id @default(cuid())
-  degree      String?
-  school      String?
-  startDate   DateTime?
+  degree      String
+  school      String
+  startDate   DateTime
   endDate     DateTime?
   portfolioId String
   portfolio   Portfolio @relation(fields: [portfolioId], references: [id])

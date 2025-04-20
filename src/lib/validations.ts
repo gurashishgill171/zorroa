@@ -46,9 +46,9 @@ export const workExperienceSchema = z.object({
   workExperiences: z
     .array(
       z.object({
-        position: optionalString,
-        company: optionalString,
-        startDate: optionalString,
+        position: requiredString,
+        company: requiredString,
+        startDate: requiredString,
         endDate: optionalString,
         description: optionalString,
       }),
@@ -62,9 +62,9 @@ export const educationSchema = z.object({
   educations: z
     .array(
       z.object({
-        degree: optionalString,
-        school: optionalString,
-        startDate: optionalString,
+        degree: requiredString,
+        school: requiredString,
+        startDate: requiredString,
         endDate: optionalString,
         description: optionalString,
       }),

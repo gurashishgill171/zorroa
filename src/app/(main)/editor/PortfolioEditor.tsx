@@ -5,7 +5,13 @@ import Breadcrumbs from "./Breadcrumbs";
 import { useSearchParams } from "next/navigation";
 import { steps } from "./steps";
 import Footer from "./Footer";
-import { GeneralInfoValues, PersonalInfoValues, PortfolioValues } from "@/lib/validations";
+import {
+  EducationValues,
+  GeneralInfoValues,
+  PersonalInfoValues,
+  PortfolioValues,
+  WorkExperienceValues,
+} from "@/lib/validations";
 import Template1 from "@/components/templates/template1";
 import { UseFormReturn } from "react-hook-form";
 
@@ -13,7 +19,12 @@ function PortfolioEditor() {
   const [portfolioData, setPortfolioData] = useState<PortfolioValues>(
     {} as PortfolioValues,
   );
-  const [form, setForm] = useState<UseFormReturn<GeneralInfoValues | PersonalInfoValues> | null>(null)
+  const [form, setForm] = useState<UseFormReturn<
+    | GeneralInfoValues
+    | PersonalInfoValues
+    | WorkExperienceValues
+    | EducationValues
+  > | null>(null);
   const searchParams = useSearchParams();
   const currentStep = searchParams.get("step") || steps[0].key;
 

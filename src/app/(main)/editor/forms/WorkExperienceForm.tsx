@@ -9,11 +9,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PortfolioEditorProps } from "@/lib/types";
-import {
-  GeneralInfoValues,
-  workExperienceSchema,
-  WorkExperienceValues,
-} from "@/lib/validations";
+import { workExperienceSchema, WorkExperienceValues } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect } from "react";
 import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
@@ -21,12 +17,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
 interface WorkInfoFormProps extends PortfolioEditorProps {
-  setFormRef?: (form: UseFormReturn<GeneralInfoValues>) => void;
+  setFormRef?: (form: UseFormReturn<WorkExperienceValues>) => void;
 }
 
 function WorkExperienceForm({
   portfolioData,
   setPortfolioData,
+  setFormRef,
 }: WorkInfoFormProps) {
   const form = useForm<WorkExperienceValues>({
     resolver: zodResolver(workExperienceSchema),
@@ -39,6 +36,12 @@ function WorkExperienceForm({
     control: form.control,
     name: "workExperiences",
   });
+
+  useEffect(() => {
+    if (setFormRef) {
+      setFormRef(form);
+    }
+  }, [form, setFormRef]);
 
   useEffect(() => {
     const subscription = form.watch((values) => {
@@ -105,7 +108,6 @@ interface WorkExperienceItemProps {
 }
 
 const WorkExperienceItem = ({
-  id,
   form,
   index,
   remove,

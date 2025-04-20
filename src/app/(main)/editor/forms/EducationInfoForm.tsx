@@ -11,22 +11,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { PortfolioEditorProps } from "@/lib/types";
-import {
-  educationSchema,
-  EducationValues,
-  GeneralInfoValues,
-} from "@/lib/validations";
+import { educationSchema, EducationValues } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect } from "react";
 import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
 
 interface EducationFormProps extends PortfolioEditorProps {
-  setFormRef?: (form: UseFormReturn<GeneralInfoValues>) => void;
+  setFormRef?: (form: UseFormReturn<EducationValues>) => void;
 }
 
 function EducationInfoForm({
   portfolioData,
   setPortfolioData,
+  setFormRef,
 }: EducationFormProps) {
   const form = useForm<EducationValues>({
     resolver: zodResolver(educationSchema),
@@ -39,6 +36,12 @@ function EducationInfoForm({
     control: form.control,
     name: "educations",
   });
+
+  useEffect(() => {
+    if (setFormRef) {
+      setFormRef(form);
+    }
+  }, [form, setFormRef]);
 
   useEffect(() => {
     const subscription = form.watch((values) => {
@@ -104,7 +107,7 @@ interface EducationItemProps {
   remove: (index: number) => void;
 }
 
-const EducationItem = ({ id, index, form, remove }: EducationItemProps) => {
+const EducationItem = ({ index, form, remove }: EducationItemProps) => {
   return (
     <div>
       <div></div>
